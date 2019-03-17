@@ -283,30 +283,17 @@ def get_dictionaries(coco, super_categories):
     return imgDict, annDict
 
 
-def generate_datasets(data, ratios=[0.6, 0.2, 0.2]):
-
-    train = ratios[0]
-    valid = ratios[1]
-
-    train_valid = len(data) * train
-    valid_test = train_valid + len(data) * valid
+def generate_data(data):
 
     for i, point in enumerate(data):
 
         img, mask = point
 
-        if i < train_valid:
-            folder = "train"
-        elif i < valid_test:
-            folder = "valid"
-        else:
-            folder = "test"
-
         img = Image.fromarray(img)
-        dir_img = "../data/" + folder + "_img/" +  str(i) + ".jpg"
+        dir_img = "../data/images/" + str(i) + ".jpg"
         img.save(dir_img, 'JPEG')
 
-        dir_mask = "../data/" + folder + "_mask/" + str(i)
+        dir_mask = "../data/masks/" + str(i)
         np.save(dir_mask, mask)
 
 
@@ -321,7 +308,7 @@ def main():
 
     print("Total Images:", len(data))
 
-    generate_datasets(data)
+    generate_data(data)
 
 
 if __name__ == "__main__":
