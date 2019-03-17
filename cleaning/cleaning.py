@@ -227,7 +227,7 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
         if count == size and size is not None:
             break
 
-        print(i)
+        print("Working on Image #", i)
 
         # generate prominent mask for object:
         mask = get_prominent_mask(coco, ann_dict[i])
@@ -283,16 +283,45 @@ def get_dictionaries(coco, super_categories):
     return imgDict, annDict
 
 
+def generate_datasets(data, ratios=[0.6, 0.2, 0.2]):
+
+    train = ratios[0]
+    valid = ratios[1]
+
+    train_valid = len(data) * train
+    valid_test = train_valid + len(data) * valid
+
+    for i, point in enumerate(data):
+
+        img, mask = point
+
+        if i < train_valid:
+            folder = "train"
+        elif i < valid_test:
+            folder = "valid"
+        else:
+            folder = "test"
+
+        img = Image.fromarray(img)
+        dir_img = "../data/" + folder + "_img/" +  str(i) + ".jpg"
+        img.save(dir_img, 'JPEG')
+
+        dir_mask = "../data/" + folder + "_mask/" + str(i)
+        np.save(dir_mask, mask)
+
+
 def main():
 
     print("Running main")
 
     coco = load_data().coco
+
     cat_ids, img_ids, ann_ids, img_dict, ann_dict = get_interest(coco)
+    data = get_dataloader(coco, img_dict, ann_dict, size=None, to_tensor=False)
 
-    data = get_dataloader(coco, img_dict, ann_dict, to_tensor=False)
+    print("Total Images:", len(data))
 
-    print("data")
+    generate_datasets(data)
 
 
 if __name__ == "__main__":
