@@ -9,30 +9,74 @@ def cluster(img, amount_clusters, colours):
     y, x, depth = img.shape
 
     # Generate random clusters within image
-    clusters = np.random.rand(amount_clusters, depth) * 255
+    clusters = np.random.rand(amount_clusters, depth + 2) * 10
 
     # Create cluster mapping
     cluster_mapping = np.zeros((y, x))
 
-    error_threshold = 5
-    error = error_threshold + 1
+    # Image used for clustering
+    img_cluster = transform_img(np.copy(img), x, y)
 
-    while error > error_threshold:
+    error_threshold = 0.001
+    error = error_threshold + 1
+    error_new = error_threshold
+
+    # Iteration count
+    i = 0
+
+    while abs(error_new - error) > error_threshold and not i > 20:
+
+        i = i + 1
+
+        error = error_new
 
         # Assign clusters
-        cluster_mapping = assign_clusters(img, clusters, cluster_mapping, x, y)
+        cluster_mapping = assign_clusters(img_cluster, clusters, cluster_mapping, x, y)
 
         # Get new clusters
-        clusters, error = update_clusters(img, clusters, cluster_mapping, x, y)
+        clusters, error_new = update_clusters(img_cluster, clusters, cluster_mapping, x, y)
+
+        print(error_new)
 
     plot_cluster(img, cluster_mapping.astype(int), x, y, colours)
+
+
+def transform_img(img, x_size, y_size):
+
+    img.setflags(write=True)
+
+    dummy = np.zeros((y_size, x_size, 1))
+
+    img = np.append(img, dummy, axis=2)
+    img = np.append(img, dummy, axis=2)
+
+    for y in range(0, y_size):
+        for x in range(0, x_size):
+
+            img[y][x][3] = (y / y_size) * 50
+            img[y][x][4] = (x / x_size) * 50
+
+            img[y][x][0] = img[y][x][0] * 10 / 255.0
+            img[y][x][1] = img[y][x][1] * 10 / 255.0
+            img[y][x][2] = img[y][x][2] * 10 / 255.0
+
+            #print(img[y][x])
+
+            #space = img[y][x]
+            #space = (space - min(space)) / (max(space) - min(space)) *
+
+            #img[y][x] = space
+
+    img.setflags(write=False)
+
+    return img
 
 
 def plot_cluster(img, cluster_mapping, x_size, y_size, colours):
 
     # Create segmented image and set colors
     img_segmented = np.copy(img)
-    img_segmented.setflags(write=1)
+    img_segmented.setflags(write=True)
 
     for y in range(0, y_size):
         for x in range(0, x_size):
@@ -73,7 +117,7 @@ def update_clusters(img, clusters, cluster_mapping, x_size, y_size):
 
     old_clusters = np.copy(clusters)
 
-    for index, cluster in enumerate(clusters):
+    for index, _ in enumerate(clusters):
 
         # Find all pixels belonging to this cluster
         pixels = [img[y][x] for y in range (0, y_size) for x in range (0, x_size) if cluster_mapping[y][x] == index]
