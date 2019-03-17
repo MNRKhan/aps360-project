@@ -215,7 +215,30 @@ def resize(img, mask, resize_dim=IMG_SIZE):
     return np.array(square_im), sq_msk_np
 
 
-def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=False):
+def resize_square(img, mask, resize_dim=IMG_SIZE):
+
+    img = np.array(img)
+    mask = np.array(mask)
+
+    test = np.array(img)[0][0]
+    is_rgb = test.size == 3
+    type = 'RGB' if is_rgb else '1'
+
+    # turn img into a PIL img
+    im_pil = Image.fromarray(img, type)
+    mask_im = Image.fromarray(np.uint8(255 * mask))
+
+    size = (resize_dim, resize_dim)
+    im_pil = im_pil.resize(size, Image.ANTIALIAS)
+    mask_im = mask_im.resize(size, Image.ANTIALIAS)
+
+    mask_im_np = np.array(mask_im)
+    mask_im_np = np.clip(mask_im_np, a_min=0, a_max=1)
+
+    return np.array(im_pil), mask_im_np
+
+
+def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=False, padding=False):
 
     data = []
     count = 0
@@ -238,7 +261,11 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
             img = np.array(io.imread(img['coco_url']))
 
             if crop:
-                img, mask = resize(img, mask)
+
+                if padding:
+                    img, mask = resize(img, mask)
+                else:
+                    img, mask = resize_square(img, mask)
 
             if to_tensor:
 
@@ -304,7 +331,7 @@ def main():
     coco = load_data().coco
 
     cat_ids, img_ids, ann_ids, img_dict, ann_dict = get_interest(coco)
-    data = get_dataloader(coco, img_dict, ann_dict, size=None, to_tensor=False)
+    data = get_dataloader(coco, img_dict, ann_dict, size=None, to_tensor=False, padding=False)
 
     print("Total Images:", len(data))
 
