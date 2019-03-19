@@ -45,7 +45,7 @@ def load_data():
 		"/content/coco/annotations/instances_val2017.json",
 		torchvision.transforms.ToTensor())
 
-	return coco_data
+    return coco_data
 
 
 # Returns category ids, images (and ids) and annotations (and ids) of interest 
