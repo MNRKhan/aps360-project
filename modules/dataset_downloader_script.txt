@@ -1,0 +1,23 @@
+# script_dataset_downloader.txt
+# Contains command line script to download cleaned datasets
+
+# Clean existing directories
+
+!rm -rf __MACOSX
+!rm -rf *.zip
+!rm -rf data
+
+# Download dataset from GitHub repo
+
+!wget https://github.com/MNRKhan/aps360-project/raw/master/datasets/data.zip
+!unzip data.zip
+
+# Move dataset to correct location
+
+mv /content/data /data
+
+# Remove unnecessary files
+
+!rm -rf __MACOSX
+!rm -rf *.zip
+
