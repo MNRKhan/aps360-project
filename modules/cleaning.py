@@ -236,10 +236,10 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
             if to_tensor:
 
                 img = torch.from_numpy(np.transpose(img, [2, 0, 1]))
-				img = transforms_(img.float())
+                img = transforms_(img.float())
 
                 mask = torch.from_numpy(mask).unsqueeze(0)
-				mask = mask.float()
+                mask = mask.float()
 
             data.append((img, mask))
             count += 1
