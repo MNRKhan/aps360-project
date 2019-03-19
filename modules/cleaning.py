@@ -41,15 +41,11 @@ MAX_PROMINENT_NUM = 4
 # Loads COCO data
 def load_data():
 
-    dir_dataset = "/Users/sagarpatel/PycharmProjects/aps360-project/coco/val/"
-    dir_annotations = "/Users/sagarpatel/PycharmProjects/aps360-project/coco/annotations/instances_val2017.json"
+    coco_data = torchvision.datasets.CocoDetection("/content/coco/val",
+		"/content/coco/annotations/instances_val2017.json",
+		torchvision.transforms.ToTensor())
 
-    transforms_ = transforms.Compose([transforms.ToTensor(),
-                                      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-    coco_data = torchvision.datasets.CocoDetection(dir_dataset, dir_annotations, transform=transforms_)
-
-    return coco_data
+	return coco_data
 
 
 # Returns category ids, images (and ids) and annotations (and ids) of interest 
@@ -240,10 +236,10 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
             if to_tensor:
 
                 img = torch.from_numpy(np.transpose(img, [2, 0, 1]))
-		img = transforms_(img.float())
+				img = transforms_(img.float())
 
                 mask = torch.from_numpy(mask).unsqueeze(0)
-		mask = mask.float()
+				mask = mask.float()
 
             data.append((img, mask))
             count += 1
