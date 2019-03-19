@@ -1,5 +1,5 @@
 # extractNet_simple.py
-# Contains Simple Autoencoder model definition
+# Contains Simple Autoencoder model (Encoder 3, Decoder 3)
 
 
 import torch.nn as nn
@@ -23,6 +23,8 @@ class extractNet_simple(nn.Module):
 			nn.ConvTranspose2d(16, 1, 3, stride=2, padding=1, output_padding=1),
 			nn.Sigmoid()
 		)
+
+
 	def forward(self, img):
 		out = self.encoder(img)
 		out = self.decoder(out)
