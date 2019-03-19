@@ -1,54 +1,48 @@
 # data_loader.py
-# Contains functions for loading coco dataset
-
+# Contains functions for using cleaned dataset
 
 import numpy as np
+import os
 import matplotlib.pyplot as plt
+from torch.utils.data import Dataset, DataLoader
 
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torchvision
-import torch.nn.functional as F
+# PREREQUISITE: Must have ran 'dataset_downloader_script' prior to this
 
+# Custom class for cleaned dataset
 
-# Returns (image, target) tensor tuples
-def loadData():
-	cocoData = torchvision.datasets.CocoDetection("/content/coco/val",
-		"/content/coco/annotations/instances_val2017.json",
-		torchvision.transforms.ToTensor())
-	return cocoData
+class ImageMaskDataset(Dataset):
 
+  def __init__(self, data_dir, transform=None):
 
-# Returns the image dictionary and corresponding annotation id dictionary 
-# Containing images of the classes of interest (string specification, not id)
-def generateSelImgDict(cocoData, interestSuperCats):
-	# All categories
-	#cats = (cocoData.coco).loadCats((cocoData.coco).getCatIds())
+    self.data_dir = data_dir
+    self.transform = None
 
-	# Get category ids for the super categories of interest
-	interestCatIds = (cocoData.coco).getCatIds(supNms=interestSuperCats)
+  def __len__(self):
 
-	imgIds = []
-	annDict = []
+    return len([name for name in os.listdir(self.data_dir) if os.path.isfile(name)])
 
-	# Extract images with at least one of the categories of interest in them
-	for catId in interestCatIds:
-		#catId = cocoData.coco.getCatIds(catNms = cat['name'])
+  def __getitem__(self, idx):
 
-		# Get all images with at least this category in it
-		imgIdVec = (cocoData.coco).getImgIds(catIds=catId)
+    img = torch.from_numpy(plt.imread(self.data_dir + "/images/" + str(idx) + ".jpg"))
+    mask = torch.from_numpy(np.load(self.data_dir + "/masks/" + str(idx) + ".npy"))
 
-		# For each image, add them to the id list along with its annotations
-		for item in imgIdVec:
-			imgIds.append(item)
+    return img, mask
 
-			# Get ids for the annotation for this image for the categories of interest
-			annId = cocoData.coco.getAnnIds(imgIds=item, catIds=interestCatIds, iscrowd=None)
-			annDict.append(cocoData.coco.loadAnns(annId))
+# Example usage
 
-	# Create dictionary of images of interest
-	imgDict = (cocoData.coco).loadImgs(imgIds)
+def main():
 
-	return imgDict, annDict
+  dataset = ImageMaskDataset(str(os.path.dirname(os.getcwd())) + "/data")
 
+  for i, (img, mask) in enumerate(dataset):
+    
+    if i > 10:
+      break
+      
+    print(type(img), type(mask))
+
+    plt.imshow(img)
+    plt.show()
+
+    plt.imshow(mask)
+    plt.show()
