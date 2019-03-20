@@ -113,6 +113,7 @@ def plotCurve(train_val, valid_val, num_epochs, ctype):
 
 
 def plotPerformance(train_loss, valid_loss, train_acc, valid_acc, num_epochs):
+
 	# Plot loss curves
 	plotCurve(train_loss, valid_loss, num_epochs, ctype = 'Loss')
 
