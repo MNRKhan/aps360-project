@@ -10,7 +10,7 @@ from helper import getModelName
 from metrics import calculateTotalIoU, getLoss
 
 
-def trainModel(model, train_set, val_set, batch_size=32, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=False):
+def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=False):
 	name = getModelName(lr, batch_size)
 
 	# Arrays to store loss and accuracy for plotting
@@ -23,17 +23,10 @@ def trainModel(model, train_set, val_set, batch_size=32, lr=0.001, num_epochs=30
 	criterion = torch.nn.BCELoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-	# Create bucket iterator to go over epochs
-	# Set repeat=False to stop after each epoch
-	train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
-
 	for epoch in range(num_epochs):
 		for i, batch in enumerate(train_loader):
 			# Extract data images and target masks
 			img, target = batch
-
-			# Normalize image
-			# img=transforms_(img)
 
 			optimizer.zero_grad()
 
@@ -54,10 +47,10 @@ def trainModel(model, train_set, val_set, batch_size=32, lr=0.001, num_epochs=30
 		# so that the same weight set is used for each computation,
 		# and so it is more comparable with validation loss
 		# (which is also computed using the weights at the end of the epoch)
-		train_loss[epoch] = getLoss(model, train_set, criterion)
-		train_acc[epoch] = calculateTotalIoU(model, train_set)
-		valid_loss[epoch] = getLoss(model, val_set, criterion)
-		valid_acc[epoch] = calculateTotalIoU(model, val_set)
+		train_loss[epoch] = getLoss(model, train_loader, criterion)
+		train_acc[epoch] = calculateTotalIoU(model, train_loader)
+		valid_loss[epoch] = getLoss(model, valid_loader, criterion)
+		valid_acc[epoch] = calculateTotalIoU(model, valid_loader)
 
 		# Checkpoint model at current epoch
 		if (checkpoint == True):
