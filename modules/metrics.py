@@ -33,8 +33,7 @@ def calculateIoU(pred, target):
 
 
 # Given a model and dataset of (image, mask) tuples, calculate overall IoU
-def calculateTotalIoU(model, data):
-	data_loader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=False)
+def calculateTotalIoU(model, data_loader):
 
 	total_iou = 0
 	num_data = 0
@@ -52,8 +51,7 @@ def calculateTotalIoU(model, data):
 
 
 # Computes average loss over dataset
-def getLoss(model, data, criterion):
-	data_loader = torch.utils.data.DataLoader(data, batch_size=4, shuffle=False)
+def getLoss(model, data_loader, criterion):
 
 	total_loss = 0
 	num_data = 0
