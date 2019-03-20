@@ -316,5 +316,3 @@ def main():
     print("Total Images:", len(data))
 
     generate_data(data)
-
-main()

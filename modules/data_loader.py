@@ -5,6 +5,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
+import torch
+from torchvision import transforms
 
 # PREREQUISITE: Must have ran 'dataset_downloader_script' prior to this
 
@@ -12,37 +14,65 @@ from torch.utils.data import Dataset, DataLoader
 
 class ImageMaskDataset(Dataset):
 
-  def __init__(self, data_dir, transform=None):
+  def __init__(self, data_dir='/content/data', transform=None):
 
     self.data_dir = data_dir
-    self.transform = None
+    self.transform = transform
+
 
   def __len__(self):
 
-    return len([name for name in os.listdir(self.data_dir) if os.path.isfile(name)])
+    return len(
+      [name for name in os.listdir(self.data_dir + '/images') if os.path.isfile(self.data_dir + '/images/' + name)])
+
 
   def __getitem__(self, idx):
 
-    img = torch.from_numpy(plt.imread(self.data_dir + "/images/" + str(idx) + ".jpg"))
-    mask = torch.from_numpy(np.load(self.data_dir + "/masks/" + str(idx) + ".npy"))
+    ids = np.atleast_1d(idx.detach().numpy())
 
-    return img, mask
+    item = []
+
+    for id in ids:
+
+      img = plt.imread(self.data_dir + "/images/" + str(id) + ".jpg")
+
+      if self.transform:
+        img = self.transform(img)
+
+      mask = torch.Tensor(np.load(self.data_dir + "/masks/" + str(id) + ".npy")).unsqueeze(0)
+
+      item.append((img, mask))
+
+    if len(item) == 1:
+      return item[0]
+
+    return item
+
 
 # Example usage
 
 def main():
 
-  dataset = ImageMaskDataset(str(os.path.dirname(os.getcwd())) + "/data")
+  transform = transforms.Compose([transforms.ToTensor(),
+                                              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-  for i, (img, mask) in enumerate(dataset):
-    
+  dataset = ImageMaskDataset(data_dir="/content/data", transform=transform)
+  size = len(dataset)
+
+  train_size = int(0.6 * size)
+  valid_size = int(0.2 * size)
+  test_size = size - train_size - valid_size
+
+  print(train_size, valid_size, test_size)
+
+  train, valid, test = torch.utils.data.random_split(dataset, [train_size, valid_size, test_size])
+
+  train = train[:10]
+
+  for i, (img, mask) in enumerate(train):
+
     if i > 10:
       break
-      
-    print(type(img), type(mask))
 
-    plt.imshow(img)
-    plt.show()
-
-    plt.imshow(mask)
-    plt.show()
+    print(img.shape)
+    print(mask.shape)
