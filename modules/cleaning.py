@@ -41,8 +41,8 @@ MAX_PROMINENT_NUM = 4
 # Loads COCO data
 def load_data():
 
-    coco_data = torchvision.datasets.CocoDetection("/content/coco/val",
-		"/content/coco/annotations/instances_val2017.json",
+    coco_data = torchvision.datasets.CocoDetection("/Users/sagarpatel/PycharmProjects/aps360-project/coco/val",
+		"/Users/sagarpatel/PycharmProjects/aps360-project/coco/annotations/instances_val2017.json",
 		torchvision.transforms.ToTensor())
 
     return coco_data
@@ -133,9 +133,11 @@ def resize(img, mask, resize_dim=IMG_SIZE):
     img = np.array(img)
     mask = np.array(mask)
 
+    type = 'RGB'
     test = np.array(img)[0][0]
     is_rgb = test.size == 3
-    type = 'RGB' if is_rgb else '1'
+
+    if not is_rgb: print('error')
 
     # turn img into a PIL img
     im_pil = Image.fromarray(img, type)
@@ -155,7 +157,7 @@ def resize(img, mask, resize_dim=IMG_SIZE):
 
     # create new image with black background
 
-    background = (0, 0, 0) if is_rgb else (0)
+    background = (0, 0, 0)
 
     square_im = Image.new(type, (resize_dim, resize_dim), background)
     square_msk = Image.new('1', (resize_dim, resize_dim))
@@ -178,9 +180,11 @@ def resize_square(img, mask, resize_dim=IMG_SIZE):
     img = np.array(img)
     mask = np.array(mask)
 
+    type = 'RGB'
     test = np.array(img)[0][0]
     is_rgb = test.size == 3
-    type = 'RGB' if is_rgb else '1'
+
+    if not is_rgb: print('error')
 
     # turn img into a PIL img
     im_pil = Image.fromarray(img, type)
@@ -225,6 +229,10 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
 
             img = img_dict[i]
             img = np.array(io.imread(img['coco_url']))
+
+            # remove all black and white images
+            test = np.array(img)[0][0]
+            if test.size != 3: continue
 
             if crop:
 
@@ -288,10 +296,10 @@ def generate_data(data):
         img, mask = point
 
         img = Image.fromarray(img)
-        dir_img = "../data/images/" + str(i) + ".jpg"
+        dir_img = "/Users/sagarpatel/PycharmProjects/aps360-project/data/images/" + str(i) + ".jpg"
         img.save(dir_img, 'JPEG')
 
-        dir_mask = "../data/masks/" + str(i)
+        dir_mask = "/Users/sagarpatel/PycharmProjects/aps360-project/data/masks/" + str(i)
         np.save(dir_mask, mask)
 
 
@@ -308,3 +316,5 @@ def main():
     print("Total Images:", len(data))
 
     generate_data(data)
+
+main()
