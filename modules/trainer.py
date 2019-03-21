@@ -20,7 +20,7 @@ def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_e
 	valid_acc = np.zeros(num_epochs)
 
 	# Use BCE loss for pixelwise binary classification problem
-	criterion = torch.nn.BCELoss()
+	criterion = torch.nn.BCEWithLogitsLoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
 	for epoch in range(num_epochs):

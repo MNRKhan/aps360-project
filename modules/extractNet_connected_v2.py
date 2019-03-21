@@ -37,8 +37,6 @@ class extractNet_connected_v2(nn.Module):
 
 		out = torch.cat((out,enc_out1),1)
 		out = self.deconv4(out)
-
-		out = torch.sigmoid(out)
-
+		
 		return out
 

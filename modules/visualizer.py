@@ -92,7 +92,7 @@ def extractProminent(model, img, target):
 	plt.subplot(1,3,2)
 	plt.imshow(tensorToNpImg(target));  plt.axis('off')
 
-	res = model(img.unsqueeze(0).float())
+	res = torch.sigmoid(model(img.unsqueeze(0).float()))
 	plt.subplot(1,3,3)
 	generatedMask = thresholdProbMask(tensorToNpImg(res.squeeze(0)))
 	plt.imshow(generatedMask);  plt.axis('off')

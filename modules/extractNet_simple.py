@@ -21,7 +21,6 @@ class extractNet_simple(nn.Module):
 			nn.ConvTranspose2d(32, 16, 3, stride=2, padding=1, output_padding=1),
 			nn.ReLU(),
 			nn.ConvTranspose2d(16, 1, 3, stride=2, padding=1, output_padding=1),
-			nn.Sigmoid()
 		)
 
 

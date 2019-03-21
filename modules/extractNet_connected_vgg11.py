@@ -1,5 +1,5 @@
-# extractNet_connected_vgg.py
-# Contains Interconnected Autoencoder model (Encoder VGG, Decoder VGG-mirror)
+# extractNet_connected_vgg11.py
+# Contains Interconnected Autoencoder model (Encoder VGG11, Decoder VGG-mirror)
 
 
 import torchvision
@@ -12,18 +12,18 @@ encode_out = []
 def hook(module, input, output):
 	encode_out.append(output)
 
-class extractNet_connected_vgg(nn.Module):
+class extractNet_connected_vgg11(nn.Module):
 	def __init__(self):
-		super(extractNet_connected_vgg, self).__init__()
+		super(extractNet_connected_vgg11, self).__init__()
 
-		vgg16 = torchvision.models.vgg.vgg16(pretrained=True)
+		vgg11 = torchvision.models.vgg.vgg11(pretrained=True)
 
 		self.encode_out = []
 
 		# Maxpool output layers
-		self.encoder_out_layers = [1,4,9,16,23,30]
+		self.encoder_out_layers = [0,2,5,10,15,20]
 
-		self.vgg = vgg16
+		self.vgg = vgg11
 
 		# Freeze weights
 		for param in self.vgg.features.parameters():
@@ -52,23 +52,21 @@ class extractNet_connected_vgg(nn.Module):
 		out = self.vgg.features(img)
 
 		out = F.relu(self.deconv1(encode_out[-1]))
+
 		out = torch.cat((out, encode_out[-2]), 1)
-
 		out = F.relu(self.deconv2(out))
+
 		out = torch.cat((out, encode_out[-3]),1)
-
 		out = F.relu(self.deconv3(out))
+
 		out = torch.cat((out, encode_out[-4]),1)
-
 		out = F.relu(self.deconv4(out))
+
 		out = torch.cat((out, encode_out[-5]),1)
-
 		out = F.relu(self.deconv5(out))
+
 		out = torch.cat((out, img),1)
-
 		out = self.deconv6(out)
-
-		out = torch.sigmoid(out)
 
 		return out
 

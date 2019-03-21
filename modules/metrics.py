@@ -40,7 +40,7 @@ def calculateTotalIoU(model, data_loader):
 
 	for i, batch in enumerate(data_loader):
 		img, target = batch
-		pred = model(img)
+		pred = torch.sigmoid(model(img))
 		iou = calculateIoU(pred, target)
 		total_iou += iou
 
@@ -58,7 +58,7 @@ def getLoss(model, data_loader, criterion):
 
 	for i, batch in enumerate(data_loader):
 		img, target = batch
-		pred = model(img)
+		pred = torch.sigmoid(model(img))
 		loss = criterion(pred, target)
 		total_loss += loss
 		num_data += img.shape[0]
