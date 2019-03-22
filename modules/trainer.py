@@ -2,8 +2,9 @@
 # Contains functions for training models
 
 
-import torch
 import numpy as np
+import time
+import torch
 
 from visualizer import plotPerformance
 from helper import getModelName
@@ -22,6 +23,8 @@ def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_e
 	# Use BCE loss for pixelwise binary classification problem
 	criterion = torch.nn.BCEWithLogitsLoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+	start_time = time.time()
 
 	for epoch in range(num_epochs):
 		for i, batch in enumerate(train_loader):
@@ -62,7 +65,10 @@ def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_e
 				epoch, train_acc[epoch], train_loss[epoch], valid_acc[epoch], valid_loss[epoch]))
 
 	# Training end
+	end_time = time.time()
+	elapsed_time = end_time - start_time
 	print("Training Finished")
+	print("Total time elapsed: {:.2f} seconds".format(elapsed_time))
 	print("\nFinal Training IoU:", train_acc[-1])
 	print("\nBest Validation IoU:", np.amax(valid_acc))
 	print("On at epoch:", np.argmax(valid_acc))
