@@ -31,9 +31,8 @@ def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_e
 			# Extract data images and target masks
 			img, target = batch
 
-			if device:
-				img = img.to(device)
-				target = target.to(device)
+			img = img.to(device)
+			target = target.to(device)
 
 			optimizer.zero_grad()
 
@@ -54,10 +53,10 @@ def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_e
 		# so that the same weight set is used for each computation,
 		# and so it is more comparable with validation loss
 		# (which is also computed using the weights at the end of the epoch)
-		train_loss[epoch] = getLoss(model, train_loader, criterion)
-		train_acc[epoch] = calculateTotalIoU(model, train_loader)
-		valid_loss[epoch] = getLoss(model, valid_loader, criterion)
-		valid_acc[epoch] = calculateTotalIoU(model, valid_loader)
+		train_loss[epoch] = getLoss(model, train_loader, criterion, device)
+		train_acc[epoch] = calculateTotalIoU(model, train_loader, device)
+		valid_loss[epoch] = getLoss(model, valid_loader, criterion, device)
+		valid_acc[epoch] = calculateTotalIoU(model, valid_loader, device)
 
 		# Checkpoint model at current epoch
 		if (checkpoint == True):

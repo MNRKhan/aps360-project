@@ -19,8 +19,8 @@ def getPercentMask(obj_mask):
 # Given prediction mask and target masks
 # Compute accuracy metric: IoU
 def calculateIoU(pred, target):
-	true_mask = target.squeeze(1).detach().numpy()
-	pred_mask = pred.squeeze(1).detach().numpy()
+	true_mask = target.squeeze(1).detach().cpu().numpy()
+	pred_mask = pred.squeeze(1).detach().cpu().numpy()
 
 	intersect = np.sum((true_mask*pred_mask), axis=(1,2)) 
 	union = np.sum(np.clip(true_mask + pred_mask, a_min=0, a_max=1), axis=(1,2))
@@ -41,14 +41,13 @@ def calculateTotalIoU(model, data_loader, device=None):
 	for i, batch in enumerate(data_loader):
 		img, target = batch
 
-		if device:
-			img = img.to(device)
-			target = target.to(device)
+		img = img.to(device)
+		target = target.to(device)
 
 		pred = torch.sigmoid(model(img))
 		iou = calculateIoU(pred, target)
-		total_iou += iou
 
+		total_iou += iou
 		num_data += img.shape[0]
 
 	# Average IoU on data set  
@@ -64,12 +63,12 @@ def getLoss(model, data_loader, criterion, device=None):
 	for i, batch in enumerate(data_loader):
 		img, target = batch
 
-		if device:
-			img = img.to(device)
-			target = target.to(device)
+		img = img.to(device)
+		target = target.to(device)
 
 		pred = torch.sigmoid(model(img))
 		loss = criterion(pred, target)
+
 		total_loss += loss
 		num_data += img.shape[0]
 
