@@ -11,7 +11,7 @@ from helper import getModelName
 from metrics import calculateTotalIoU, getLoss
 
 
-def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=False):
+def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=True):
 	name = getModelName(lr, batch_size)
 
 	# Arrays to store loss and accuracy for plotting

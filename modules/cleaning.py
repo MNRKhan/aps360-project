@@ -192,8 +192,8 @@ def resize_square(img, mask, resize_dim=IMG_SIZE):
     mask_im = Image.fromarray(np.uint8(255 * mask))
 
     size = (resize_dim, resize_dim)
-    im_pil = im_pil.resize(size, Image.ANTIALIAS)
-    mask_im = mask_im.resize(size, Image.ANTIALIAS)
+    im_pil = im_pil.resize(size)
+    mask_im = mask_im.resize(size)
 
     mask_im_np = np.array(mask_im)
     mask_im_np = np.clip(mask_im_np, a_min=0, a_max=1)
