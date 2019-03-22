@@ -2,6 +2,7 @@
 # Contains functions for image visualization
 
 
+import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -120,4 +121,8 @@ def plotPerformance(train_loss, valid_loss, train_acc, valid_acc, num_epochs):
 	# Plot accuracy curves
 	plotCurve(train_acc, valid_acc, num_epochs, ctype = 'IoU') 
 
+
+# Simple erosion-dilation denoiser
+def denoise(img, kernel_size=5):
+	return cv.morphologyEx(img, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_RECT,(kernel_size,kernel_size)))
 

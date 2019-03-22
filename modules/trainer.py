@@ -57,7 +57,7 @@ def trainModel(model, train_loader, valid_loader, batch_size=32, lr=0.001, num_e
 
 		# Checkpoint model at current epoch
 		if (checkpoint == True):
-			torch.save(model.state_dict(), name+"epoch={}".format(epoch))
+			torch.save(model.state_dict(), name+"_epoch={}".format(epoch))
 
 		# Print out the training information
 		if (out_suppress == False):
