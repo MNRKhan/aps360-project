@@ -11,7 +11,7 @@ from helper import getModelName
 from metrics import calculateTotalIoU, getLoss
 
 
-def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=True):
+def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=True, device=None):
 	name = getModelName(lr, batch_size)
 
 	# Arrays to store loss and accuracy for plotting
@@ -30,6 +30,10 @@ def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_e
 		for i, batch in enumerate(train_loader):
 			# Extract data images and target masks
 			img, target = batch
+
+			if device:
+				img = img.to(device)
+				target = target.to(device)
 
 			optimizer.zero_grad()
 
