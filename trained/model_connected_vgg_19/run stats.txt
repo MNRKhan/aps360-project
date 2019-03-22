@@ -1,0 +1,57 @@
+Epoch:0, Train IoU:0.3756, Train Loss:0.0147|Valid IoU:0.3655, Valid Loss:0.0152
+Epoch:1, Train IoU:0.3756, Train Loss:0.0147|Valid IoU:0.3633, Valid Loss:0.0150
+Epoch:2, Train IoU:0.4471, Train Loss:0.0142|Valid IoU:0.4221, Valid Loss:0.0148
+Epoch:3, Train IoU:0.5325, Train Loss:0.0138|Valid IoU:0.4904, Valid Loss:0.0142
+Epoch:4, Train IoU:0.5736, Train Loss:0.0131|Valid IoU:0.5235, Valid Loss:0.0137
+Epoch:5, Train IoU:0.6049, Train Loss:0.0127|Valid IoU:0.5500, Valid Loss:0.0134
+Epoch:6, Train IoU:0.6304, Train Loss:0.0125|Valid IoU:0.5706, Valid Loss:0.0132
+Epoch:7, Train IoU:0.6606, Train Loss:0.0124|Valid IoU:0.5983, Valid Loss:0.0130
+Epoch:8, Train IoU:0.6676, Train Loss:0.0122|Valid IoU:0.5979, Valid Loss:0.0128
+Epoch:9, Train IoU:0.7182, Train Loss:0.0120|Valid IoU:0.6483, Valid Loss:0.0128
+Epoch:10, Train IoU:0.7157, Train Loss:0.0118|Valid IoU:0.6263, Valid Loss:0.0125
+Epoch:11, Train IoU:0.7589, Train Loss:0.0119|Valid IoU:0.6777, Valid Loss:0.0125
+Epoch:12, Train IoU:0.7609, Train Loss:0.0116|Valid IoU:0.6639, Valid Loss:0.0124
+Epoch:13, Train IoU:0.7804, Train Loss:0.0116|Valid IoU:0.6843, Valid Loss:0.0124
+Epoch:14, Train IoU:0.7861, Train Loss:0.0113|Valid IoU:0.6763, Valid Loss:0.0123
+Epoch:15, Train IoU:0.8139, Train Loss:0.0115|Valid IoU:0.7038, Valid Loss:0.0123
+Epoch:16, Train IoU:0.8237, Train Loss:0.0114|Valid IoU:0.7078, Valid Loss:0.0123
+Epoch:17, Train IoU:0.8285, Train Loss:0.0112|Valid IoU:0.6999, Valid Loss:0.0122
+Epoch:18, Train IoU:0.8489, Train Loss:0.0112|Valid IoU:0.7184, Valid Loss:0.0121
+Epoch:19, Train IoU:0.8663, Train Loss:0.0111|Valid IoU:0.7315, Valid Loss:0.0121
+Epoch:20, Train IoU:0.8777, Train Loss:0.0110|Valid IoU:0.7360, Valid Loss:0.0121
+Epoch:21, Train IoU:0.8828, Train Loss:0.0109|Valid IoU:0.7239, Valid Loss:0.0120
+Epoch:22, Train IoU:0.8901, Train Loss:0.0110|Valid IoU:0.7255, Valid Loss:0.0120
+Epoch:23, Train IoU:0.9016, Train Loss:0.0108|Valid IoU:0.7448, Valid Loss:0.0120
+Epoch:24, Train IoU:0.9087, Train Loss:0.0109|Valid IoU:0.7529, Valid Loss:0.0120
+Epoch:25, Train IoU:0.9147, Train Loss:0.0109|Valid IoU:0.7562, Valid Loss:0.0120
+Epoch:26, Train IoU:0.9219, Train Loss:0.0109|Valid IoU:0.7553, Valid Loss:0.0120
+Epoch:27, Train IoU:0.9216, Train Loss:0.0108|Valid IoU:0.7478, Valid Loss:0.0119
+Epoch:28, Train IoU:0.9196, Train Loss:0.0108|Valid IoU:0.7361, Valid Loss:0.0120
+Epoch:29, Train IoU:0.9262, Train Loss:0.0108|Valid IoU:0.7496, Valid Loss:0.0119
+Epoch:30, Train IoU:0.9305, Train Loss:0.0108|Valid IoU:0.7660, Valid Loss:0.0120
+Epoch:31, Train IoU:0.9319, Train Loss:0.0108|Valid IoU:0.7682, Valid Loss:0.0120
+Epoch:32, Train IoU:0.9355, Train Loss:0.0107|Valid IoU:0.7662, Valid Loss:0.0119
+Epoch:33, Train IoU:0.9371, Train Loss:0.0108|Valid IoU:0.7652, Valid Loss:0.0119
+Epoch:34, Train IoU:0.9366, Train Loss:0.0108|Valid IoU:0.7592, Valid Loss:0.0119
+Epoch:35, Train IoU:0.9400, Train Loss:0.0107|Valid IoU:0.7683, Valid Loss:0.0119
+Epoch:36, Train IoU:0.9421, Train Loss:0.0107|Valid IoU:0.7702, Valid Loss:0.0119
+Epoch:37, Train IoU:0.9427, Train Loss:0.0107|Valid IoU:0.7652, Valid Loss:0.0119
+Epoch:38, Train IoU:0.9420, Train Loss:0.0106|Valid IoU:0.7595, Valid Loss:0.0119
+Epoch:39, Train IoU:0.9386, Train Loss:0.0107|Valid IoU:0.7508, Valid Loss:0.0119
+Epoch:40, Train IoU:0.9432, Train Loss:0.0106|Valid IoU:0.7689, Valid Loss:0.0119
+Epoch:41, Train IoU:0.9415, Train Loss:0.0108|Valid IoU:0.7770, Valid Loss:0.0119
+Epoch:42, Train IoU:0.9420, Train Loss:0.0108|Valid IoU:0.7747, Valid Loss:0.0119
+Epoch:43, Train IoU:0.9430, Train Loss:0.0106|Valid IoU:0.7608, Valid Loss:0.0119
+Epoch:44, Train IoU:0.9451, Train Loss:0.0107|Valid IoU:0.7644, Valid Loss:0.0119
+Epoch:45, Train IoU:0.9452, Train Loss:0.0106|Valid IoU:0.7628, Valid Loss:0.0119
+Epoch:46, Train IoU:0.9463, Train Loss:0.0107|Valid IoU:0.7769, Valid Loss:0.0119
+Epoch:47, Train IoU:0.9462, Train Loss:0.0108|Valid IoU:0.7788, Valid Loss:0.0119
+Epoch:48, Train IoU:0.9469, Train Loss:0.0107|Valid IoU:0.7656, Valid Loss:0.0119
+Epoch:49, Train IoU:0.9484, Train Loss:0.0106|Valid IoU:0.7666, Valid Loss:0.0119
+Training Finished
+Total time elapsed: 21475.56 seconds
+
+Final Training IoU: 0.9484125816658752
+
+Best Validation IoU: 0.7788135210673014
+On at epoch: 47
