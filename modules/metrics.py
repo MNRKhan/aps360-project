@@ -33,13 +33,18 @@ def calculateIoU(pred, target):
 
 
 # Given a model and dataset of (image, mask) tuples, calculate overall IoU
-def calculateTotalIoU(model, data_loader):
+def calculateTotalIoU(model, data_loader, device=None):
 
 	total_iou = 0
 	num_data = 0
 
 	for i, batch in enumerate(data_loader):
 		img, target = batch
+
+		if device:
+			img = img.to(device)
+			target = target.to(device)
+
 		pred = torch.sigmoid(model(img))
 		iou = calculateIoU(pred, target)
 		total_iou += iou
@@ -51,13 +56,18 @@ def calculateTotalIoU(model, data_loader):
 
 
 # Computes average loss over dataset
-def getLoss(model, data_loader, criterion):
+def getLoss(model, data_loader, criterion, device=None):
 
 	total_loss = 0
 	num_data = 0
 
 	for i, batch in enumerate(data_loader):
 		img, target = batch
+
+		if device:
+			img = img.to(device)
+			target = target.to(device)
+
 		pred = torch.sigmoid(model(img))
 		loss = criterion(pred, target)
 		total_loss += loss
