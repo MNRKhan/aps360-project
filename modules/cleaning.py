@@ -52,9 +52,9 @@ def load_data():
 def get_interest(coco):
 
     #super_categories = ['person', 'vehicle', 'animal']
-    #cat_ids = coco.getCatIds(supNms=['vehicle'])
+    cat_ids = coco.getCatIds(supNms=['vehicle'])
 
-    cat_ids = coco.getCatIds(catNms=['person'])
+    #cat_ids = coco.getCatIds(catNms=['person'])
 
     img_ids = []
 
