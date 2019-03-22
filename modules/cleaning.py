@@ -41,8 +41,8 @@ MAX_PROMINENT_NUM = 4
 # Loads COCO data
 def load_data():
 
-    coco_data = torchvision.datasets.CocoDetection("/Users/sagarpatel/PycharmProjects/aps360-project/coco/val",
-		"/Users/sagarpatel/PycharmProjects/aps360-project/coco/annotations/instances_val2017.json",
+    coco_data = torchvision.datasets.CocoDetection("/Users/sagarpatel/PycharmProjects/aps360-project/coco/training_2014",
+		"/Users/sagarpatel/PycharmProjects/aps360-project/coco/annotations_2014/instances_train2014.json",
 		torchvision.transforms.ToTensor())
 
     return coco_data
@@ -52,9 +52,9 @@ def load_data():
 def get_interest(coco):
 
     #super_categories = ['person', 'vehicle', 'animal']
-    cat_ids = coco.getCatIds(supNms=['vehicle'])
+    #cat_ids = coco.getCatIds(supNms=['vehicle'])
 
-    #cat_ids = coco.getCatIds(catNms=['person'])
+    cat_ids = coco.getCatIds(catNms=['person'])
 
     img_ids = []
 
