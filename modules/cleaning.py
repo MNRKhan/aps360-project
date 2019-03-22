@@ -51,9 +51,10 @@ def load_data():
 # Returns category ids, images (and ids) and annotations (and ids) of interest 
 def get_interest(coco):
 
-    super_categories = ['person', 'vehicle', 'animal']
+    #super_categories = ['person', 'vehicle', 'animal']
+    #cat_ids = coco.getCatIds(supNms=['vehicle'])
 
-    cat_ids = coco.getCatIds(supNms=super_categories)
+    cat_ids = coco.getCatIds(catNms=['person'])
 
     img_ids = []
 
@@ -63,7 +64,7 @@ def get_interest(coco):
     img_ids = list(set(img_ids))
     ann_ids = coco.getAnnIds(imgIds=img_ids)
 
-    img_dict, ann_dict = get_dictionaries(coco, super_categories)
+    img_dict, ann_dict = get_dictionaries(coco, cat_ids)
 
     return cat_ids, img_ids, ann_ids, img_dict, ann_dict
 
@@ -150,8 +151,8 @@ def resize(img, mask, resize_dim=IMG_SIZE):
     msk = mask_im.copy()
 
     # copy image and corresponding mask into lower size
-    im.thumbnail(size, Image.ANTIALIAS)
-    msk.thumbnail(size, Image.ANTIALIAS)
+    im.thumbnail(size)
+    msk.thumbnail(size)
 
     w, h = im.size
 
@@ -259,10 +260,7 @@ def get_dataloader(coco, img_dict, ann_dict, size=None, crop=True, to_tensor=Fal
 
 
 # Gets all images and annotations of interest
-def get_dictionaries(coco, super_categories):
-
-    # category id's for the super categories of interest
-    categories = coco.getCatIds(supNms=super_categories)
+def get_dictionaries(coco, categories):
 
     catIds_ = []
     imgIds = []
@@ -279,7 +277,7 @@ def get_dictionaries(coco, super_categories):
             imgIds.append(item)
 
             # the ids for the annotation for this image, but only for the categories of interest
-            annId = coco.getAnnIds(imgIds=item, catIds=categories, iscrowd=None)
+            annId = coco.getAnnIds(imgIds=item, catIds=categories, iscrowd=0)
             annDict.append(coco.loadAnns(annId))
 
     # create dictionary of images of interest
@@ -316,3 +314,5 @@ def main():
     print("Total Images:", len(data))
 
     generate_data(data)
+
+main()
