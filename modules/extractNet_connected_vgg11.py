@@ -18,10 +18,8 @@ class extractNet_connected_vgg11(nn.Module):
 
 		vgg11 = torchvision.models.vgg.vgg11(pretrained=True)
 
-		self.encode_out = []
-
 		# Maxpool output layers
-		self.encoder_out_layers = [0,2,5,10,15,20]
+		self.encoder_out_layers = [2,5,10,15,20]
 
 		self.vgg = vgg11
 
