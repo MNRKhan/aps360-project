@@ -287,17 +287,17 @@ def get_dictionaries(coco, categories):
 
 
 # Saves cleaned data onto disk
-def generate_data(data):
+def generate_data(data, offset=0):
 
     for i, point in enumerate(data):
 
         img, mask = point
 
         img = Image.fromarray(img)
-        dir_img = "/Users/sagarpatel/PycharmProjects/aps360-project/data/images/" + str(i) + ".jpg"
+        dir_img = "/Users/sagarpatel/PycharmProjects/aps360-project/data/images/" + str(i + offset) + ".jpg"
         img.save(dir_img, 'JPEG')
 
-        dir_mask = "/Users/sagarpatel/PycharmProjects/aps360-project/data/masks/" + str(i)
+        dir_mask = "/Users/sagarpatel/PycharmProjects/aps360-project/data/masks/" + str(i + offset)
         np.save(dir_mask, mask)
 
 
@@ -313,4 +313,6 @@ def main():
 
     print("Total Images:", len(data))
 
-    generate_data(data)
+    generate_data(data, offset=3960)
+
+main()
