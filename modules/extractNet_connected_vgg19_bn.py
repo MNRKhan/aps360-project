@@ -1,5 +1,5 @@
-# extractNet_connected_vgg19.py
-# Contains Interconnected Autoencoder model (Encoder VGG19, Decoder VGG-mirror)
+# extractNet_connected_vgg19_bn.py
+# Contains Interconnected Autoencoder model (Encoder VGG19BN, Decoder VGG-mirror)
 
 
 import torchvision
@@ -12,16 +12,16 @@ encode_out = []
 def hook(module, input, output):
 	encode_out.append(output)
 
-class extractNet_connected_vgg19(nn.Module):
+class extractNet_connected_vgg19_bn(nn.Module):
 	def __init__(self):
-		super(extractNet_connected_vgg19, self).__init__()
+		super(extractNet_connected_vgg19_bn, self).__init__()
 
-		vgg19 = torchvision.models.vgg.vgg19(pretrained=True)
+		vgg19_bn = torchvision.models.vgg.vgg19_bn(pretrained=True)
 
 		# Maxpool output layers
-		self.encoder_out_layers = [4,9,18,27,36]
+		self.encoder_out_layers = [6,13,26,39,52]
 
-		self.vgg = vgg19
+		self.vgg = vgg19_bn
 
 		# Freeze weights
 		for param in self.vgg.features.parameters():
