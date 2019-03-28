@@ -51,19 +51,19 @@ class extractNet_connected_vgg19_bn_leaky(nn.Module):
 
 		out = self.vgg_feature(img)
 
-		out = F.leaky_relu(self.deconv1(encode_out[-1]), self.alpha)
+		out = F.relu(self.deconv1(encode_out[-1]), True)
 
 		out = torch.cat((out, encode_out[-2]), 1)
-		out = F.leaky_relu(self.deconv2(out), self.alpha)
+		out = F.relu(self.deconv2(out), True)
 
 		out = torch.cat((out, encode_out[-3]),1)
-		out = F.leaky_relu(self.deconv3(out), self.alpha)
+		out = F.relu(self.deconv3(out), True)
 
 		out = torch.cat((out, encode_out[-4]),1)
-		out = F.leaky_relu(self.deconv4(out), self.alpha)
+		out = F.relu(self.deconv4(out), True)
 
 		out = torch.cat((out, encode_out[-5]),1)
-		out = F.leaky_relu(self.deconv5(out), self.alpha)
+		out = F.relu(self.deconv5(out), True)
 
 		out = torch.cat((out, img),1)
 		out = self.deconv6(out)
