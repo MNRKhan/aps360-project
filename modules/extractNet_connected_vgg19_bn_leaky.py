@@ -16,22 +16,22 @@ class extractNet_connected_vgg19_bn_leaky(nn.Module):
 	def __init__(self, alpha = 0.1):
 		super(extractNet_connected_vgg19_bn_leaky, self).__init__()
 
-		vgg19_bn = torchvision.models.vgg.vgg19_bn(pretrained=True)
-
 		self.alpha = alpha
+
+		vgg19_bn = torchvision.models.vgg.vgg19_bn(pretrained=True)
 
 		# Maxpool output layers
 		self.encoder_out_layers = [6,13,26,39,52]
 
-		self.vgg_feature = vgg19_bn.features
+		self.vgg = vgg19_bn
 
 		# Freeze weights
-		for param in self.vgg_feature.parameters():
+		for param in self.vgg.features.parameters():
 			param.requires_grad = False
 
 		# Save intermediate output values
 		for i in self.encoder_out_layers:
-			self.vgg_feature[i].register_forward_hook(hook)
+			self.vgg.features[i].register_forward_hook(hook)
 
 		self.deconv1 = nn.ConvTranspose2d(512, 512, 3, stride=2, padding=1, output_padding=1)
 
@@ -49,21 +49,21 @@ class extractNet_connected_vgg19_bn_leaky(nn.Module):
 	def forward(self, img):
 		encode_out.clear()
 
-		out = self.vgg_feature(img)
+		out = self.vgg.features(img)
 
-		out = F.relu(self.deconv1(encode_out[-1]), True)
+		out = F.leaky_relu(self.deconv1(encode_out[-1]), self.alpha)
 
 		out = torch.cat((out, encode_out[-2]), 1)
-		out = F.relu(self.deconv2(out), True)
+		out = F.leaky_relu(self.deconv2(out), self.alpha)
 
 		out = torch.cat((out, encode_out[-3]),1)
-		out = F.relu(self.deconv3(out), True)
+		out = F.leaky_relu(self.deconv3(out), self.alpha)
 
 		out = torch.cat((out, encode_out[-4]),1)
-		out = F.relu(self.deconv4(out), True)
+		out = F.leaky_relu(self.deconv4(out), self.alpha)
 
 		out = torch.cat((out, encode_out[-5]),1)
-		out = F.relu(self.deconv5(out), True)
+		out = F.leaky_relu(self.deconv5(out), self.alpha)
 
 		out = torch.cat((out, img),1)
 		out = self.deconv6(out)
