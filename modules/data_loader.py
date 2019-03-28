@@ -14,13 +14,16 @@ from torchvision import transforms
 
 class ImageMaskDataset(Dataset):
 
-  def __init__(self, data_dir='/content/data', transform=None):
+  def __init__(self, data_dir='/content/data', transform=None, size=0):
 
     self.data_dir = data_dir
     self.transform = transform
-
+    self.size = size
 
   def __len__(self):
+
+    if self.size != 0:
+      return self.size
 
     return len(
       [name for name in os.listdir(self.data_dir + '/images') if os.path.isfile(self.data_dir + '/images/' + name)])
