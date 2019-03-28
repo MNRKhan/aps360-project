@@ -17,12 +17,13 @@ class extractNet_connected_vgg19_bn(nn.Module):
 		super(extractNet_connected_vgg19_bn, self).__init__()
 
 		vgg19_bn = torchvision.models.vgg.vgg19_bn(pretrained=True)
-        self.alpha = alpha
 
-        # Maxpool output layers
+		self.alpha = alpha
+
+		# Maxpool output layers
 		self.encoder_out_layers = [6,13,26,39,52]
 
-        self.vgg_feature = vgg19_bn.features
+		self.vgg_feature = vgg19_bn.features
 
 		# Freeze weights
 		for param in self.vgg_feature.parameters():
