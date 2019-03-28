@@ -12,9 +12,9 @@ encode_out = []
 def hook(module, input, output):
 	encode_out.append(output)
 
-class extractNet_connected_vgg19_bn(nn.Module):
+class extractNet_connected_vgg19_bn_leaky(nn.Module):
 	def __init__(self, alpha = 0.1):
-		super(extractNet_connected_vgg19_bn, self).__init__()
+		super(extractNet_connected_vgg19_bn_leaky, self).__init__()
 
 		vgg19_bn = torchvision.models.vgg.vgg19_bn(pretrained=True)
 
