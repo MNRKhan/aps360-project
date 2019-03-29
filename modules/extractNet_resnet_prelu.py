@@ -14,10 +14,15 @@ def hook_r(module, input, output):
 
 
 class extractNet_resnet_prelu(nn.Module):
-    def __init__(self, act_type = 'R'):
+    def __init__(self, act_type = 'R', r_size = 50):
         super(extractNet_resnet_prelu, self).__init__()
 
-        resnet = torchvision.models.resnet152(pretrained=True)
+        if r_size == 152:
+            resnet = torchvision.models.resnet152(pretrained=True)
+        elif r_size == 101:
+            resnet = torchvision.models.resnet101(pretrained=True)
+        else:
+            resnet = torchvision.models.resnet50(pretrained=True)
 
         # Maxpool output layers
         self.encoder_out_layers = [resnet.conv1,
