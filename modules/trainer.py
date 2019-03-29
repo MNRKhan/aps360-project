@@ -55,10 +55,12 @@ def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_e
 		# so that the same weight set is used for each computation,
 		# and so it is more comparable with validation loss
 		# (which is also computed using the weights at the end of the epoch)
-			train_loss[epoch] = getLoss(model, train_loader, criterion, device)
-			train_acc[epoch] = calculateTotalIoU(model, train_loader, device)
-			valid_loss[epoch] = getLoss(model, valid_loader, criterion, device)
-			valid_acc[epoch] = calculateTotalIoU(model, valid_loader, device)
+			train_loss[epoch] = getLoss(model.eval(), train_loader, criterion, device)
+			train_acc[epoch] = calculateTotalIoU(model.eval(), train_loader, device)
+			valid_loss[epoch] = getLoss(model.eval(), valid_loader, criterion, device)
+			valid_acc[epoch] = calculateTotalIoU(model.eval(), valid_loader, device)
+
+		model = model.train()
 
 		# Checkpoint model at current epoch
 		if (checkpoint == True):
