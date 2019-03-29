@@ -26,7 +26,7 @@ class extractNet_resnet(nn.Module):
                                    resnet.layer1[0].downsample[-1],
                                    resnet.layer2[0].downsample[-1],
                                    resnet.layer3[0].downsample[-1],
-                                   resnet.layer4[0].downsample[-1]]
+                                   resnet.layer4[-1].relu]
 
         self.res = nn.Sequential(*list(resnet.children())[:-2])
 
@@ -58,37 +58,32 @@ class extractNet_resnet(nn.Module):
 
         out_res = self.res(img)
 
-        for i in range(len(encode_out_r)):
-            print("Encode out shape: ", encode_out_r[i].shape)
-
-        if (encode_out_r[-1] == out_res):
-            print("KATTA!")
 
         out = F.relu(self.deconv1(encode_out_r[-1]))
 
         # print(out.shape)
 
-        out = torch.cat((out, encode_out_r[-2]), 1)
+        out = torch.cat((out, encode_out_r[-4]), 1)
         out = F.relu(self.deconv2(out))
 
         # print(out.shape)
 
-        out = torch.cat((out, encode_out_r[-3]), 1)
+        out = torch.cat((out, encode_out_r[-5]), 1)
         out = F.relu(self.deconv3(out))
 
         # print(out.shape)
 
-        out = torch.cat((out, encode_out_r[-4]), 1)
+        out = torch.cat((out, encode_out_r[-6]), 1)
         out = F.relu(self.deconv4(out))
 
         # print(out.shape)
 
-        out = torch.cat((out, encode_out_r[-5]), 1)
+        out = torch.cat((out, encode_out_r[-7]), 1)
         out = F.relu(self.deconv5(out))
 
         # print(out.shape)
 
-        out = torch.cat((out, encode_out_r[-6]), 1)
+        out = torch.cat((out, encode_out_r[-8]), 1)
         out = F.relu(self.deconv6(out))
 
         # print(out.shape)
