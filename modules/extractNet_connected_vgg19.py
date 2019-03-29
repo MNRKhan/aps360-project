@@ -41,7 +41,7 @@ class extractNet_connected_vgg19(nn.Module):
 
 		self.deconv5 = nn.ConvTranspose2d(64+64, 3, 3, stride=2, padding=1, output_padding=1)
 
-		self.deconv6 = nn.ConvTranspose2d(3+3, 1, 3, stride=1, padding=1)
+		self.deconv6 = nn.ConvTranspose2d(3, 1, 3, stride=1, padding=1)
 
 
 	def forward(self, img):
@@ -63,7 +63,7 @@ class extractNet_connected_vgg19(nn.Module):
 		out = torch.cat((out, encode_out[-5]),1)
 		out = F.relu(self.deconv5(out))
 
-		out = torch.cat((out, img),1)
+		#out = torch.cat((out, img),1)
 		out = self.deconv6(out)
 
 		return out

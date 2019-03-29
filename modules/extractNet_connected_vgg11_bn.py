@@ -41,7 +41,7 @@ class extractNet_connected_vgg11_bn(nn.Module):
 
 		self.deconv5 = deconvBlock(64+64, 3, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
 
-		self.deconv6 = deconvBlock(3+3, 1, 3, stride=1, padding=1, with_activation = False, act_type = act_type)
+		self.deconv6 = deconvBlock(3, 1, 3, stride=1, padding=1, with_activation = False, act_type = act_type)
 
 
 	def forward(self, img):
@@ -63,7 +63,7 @@ class extractNet_connected_vgg11_bn(nn.Module):
 		out = torch.cat((out, encode_out[-5]),1)
 		out = self.deconv5(out)
 
-		out = torch.cat((out, img),1)
+		#out = torch.cat((out, img),1)
 		out = self.deconv6(out)
 
 		return out
