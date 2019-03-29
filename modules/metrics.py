@@ -44,7 +44,7 @@ def calculateTotalIoU(model, data_loader, device=None):
 		img = img.to(device)
 		target = target.to(device)
 
-		pred = torch.sigmoid(model(img))
+		pred = torch.sigmoid(model.eval(img))
 		iou = calculateIoU(pred, target)
 
 		total_iou += iou
@@ -66,7 +66,7 @@ def getLoss(model, data_loader, criterion, device=None):
 		img = img.to(device)
 		target = target.to(device)
 
-		pred = torch.sigmoid(model(img))
+		pred = torch.sigmoid(model.eval(img))
 		loss = criterion(pred, target)
 
 		total_loss += loss
