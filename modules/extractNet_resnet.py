@@ -1,3 +1,12 @@
+# extractNet_resnet.py
+# Contains Interconnected Autoencoder model (Encoder ResNet, Decoder Resnet-mirror)
+
+
+import torchvision
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 encode_out_r = []
 
 
