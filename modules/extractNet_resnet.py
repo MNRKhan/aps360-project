@@ -56,7 +56,7 @@ class extractNet_resnet(nn.Module):
 
         self.deconv6 = nn.ConvTranspose2d(64 + 64, 3, 3, stride=2, padding=1, output_padding=1)
 
-        self.deconv7 = nn.ConvTranspose2d(3 + 3, 1, 3, stride=1, padding=1)
+        self.deconv7 = nn.ConvTranspose2d(3, 1, 3, stride=1, padding=1)
 
     def forward(self, img):
         global encode_out_r
@@ -94,7 +94,7 @@ class extractNet_resnet(nn.Module):
 
         # print(out.shape)
 
-        out = torch.cat((out, img), 1)
+        #out = torch.cat((out, img), 1)
         out = self.deconv7(out)
 
         return out
