@@ -43,9 +43,9 @@ class deconvBlock(nn.Module):
         return out
 
 
-class extractNet_resnet(nn.Module):
+class extractNet_resnet_prelu(nn.Module):
     def __init__(self):
-        super(extractNet_resnet, self).__init__()
+        super(extractNet_resnet_prelu, self).__init__()
 
         resnet = torchvision.models.resnet152(pretrained=True)
 
