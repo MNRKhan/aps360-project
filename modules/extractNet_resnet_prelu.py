@@ -14,7 +14,7 @@ def hook_r(module, input, output):
 class deconvBlock(nn.Module):
     def __init__(self, in_channels, out_channels,
                  kernel_size=3, stride=2,
-                 padding=1, output_padding=1, with_bn = True,
+                 padding=1, output_padding=0, with_bn = True,
                  with_activation=True, act_type='R'):
         super().__init__()
 
