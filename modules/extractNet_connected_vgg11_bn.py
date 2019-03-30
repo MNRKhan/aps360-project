@@ -31,17 +31,17 @@ class extractNet_connected_vgg11_bn(nn.Module):
 		for i in self.encoder_out_layers:
 			self.vgg.features[i].register_forward_hook(hook)
 
-		self.deconv1 = deconvBlock(512, 512, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
+		self.deconv1 = deconvBlock(512, 512, 3, stride=2, padding=1, output_padding=1, act_type=act_type)
 
-		self.deconv2 = deconvBlock(512+512, 256, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
+		self.deconv2 = deconvBlock(512+512, 256, 3, stride=2, padding=1, output_padding=1, act_type=act_type)
 
-		self.deconv3 = deconvBlock(256+256, 128, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
+		self.deconv3 = deconvBlock(256+256, 128, 3, stride=2, padding=1, output_padding=1, act_type=act_type)
 
-		self.deconv4 = deconvBlock(128+128, 64, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
+		self.deconv4 = deconvBlock(128+128, 64, 3, stride=2, padding=1, output_padding=1, act_type=act_type)
 
-		self.deconv5 = deconvBlock(64+64, 3, 3, stride=2, padding=1, output_padding=1, act_type = act_type)
+		self.deconv5 = deconvBlock(64+64, 3, 3, stride=2, padding=1, output_padding=1, act_type=act_type)
 
-		self.deconv6 = deconvBlock(3, 1, 3, stride=1, padding=1, with_activation = False, act_type = act_type)
+		self.deconv6 = deconvBlock(3, 1, 3, stride=1, padding=1, with_activation = False, act_type=act_type)
 
 
 	def forward(self, img):
