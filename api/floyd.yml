@@ -1,0 +1,6 @@
+env: tensorflow-1.5
+task:
+  serve:
+    mode: serve
+    input:
+      - 'floydhub/datasets/pretrain-styles/1:input'

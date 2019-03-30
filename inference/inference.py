@@ -66,11 +66,9 @@ class extractNet_connected_vgg19(nn.Module):
 
 		return out
 
-def extract(path="img.jpg"):
+def extract(img):
 
 	net = extractNet_connected_vgg19()
-
-	img = plt.imread(path)
 
 	transform = transforms.Compose([transforms.ToTensor()])
 
@@ -81,5 +79,3 @@ def extract(path="img.jpg"):
 	out = out.squeeze(0).squeeze(0).detach().numpy()
 
 	return out
-
-extract()
