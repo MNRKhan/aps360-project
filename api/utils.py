@@ -19,6 +19,9 @@ def get_img(src):
 
     img = scipy.misc.imresize(img, [height, width])
 
+    if img.shape[2] > 3:
+        img = img[:,:,:3]
+
     return img
 
 # saves only the deconv weights from the

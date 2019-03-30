@@ -109,7 +109,7 @@ def extract(in_path, out_path):
     net = load_state_from_dc(net, path)
     net = net.eval()
 
-    transform = transforms.Compose([transforms.ToTensor()])
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
     input = transform(img).unsqueeze(0)
 
