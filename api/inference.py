@@ -107,6 +107,7 @@ def extract(in_path, out_path):
 
     net = extractNet_resnet_prelu()
     net = load_state_from_dc(net, path)
+    net = net.eval()
 
     transform = transforms.Compose([transforms.ToTensor()])
 
@@ -128,6 +129,7 @@ def get_masked(original, mask, out_path):
     mask = np.expand_dims(mask, axis=-1)
 
     final = mask * original
+    final = np.dstack((final, 255*mask))
     final = final.astype(int)
 
     save_img(out_path, final)

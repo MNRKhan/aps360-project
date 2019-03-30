@@ -5,7 +5,7 @@ import scipy.misc
 
 def save_img(out_path, img):
 
-    scipy.misc.imsave(out_path, img)
+    scipy.misc.imsave(out_path, img, format= 'png')
 
 def get_img(src):
 
