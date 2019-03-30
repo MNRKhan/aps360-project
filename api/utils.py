@@ -40,7 +40,7 @@ def update_dc_state(model_state, dc_state):
 # and dc states
 # updates only the dc states (not pretrained)
 def load_state_from_dc(model, dc_path):
-    dc_state = torch.load(dc_path)
+    dc_state = torch.load(dc_path, map_location='cpu')
     new_model_dict = update_dc_state(model.state_dict(), dc_state)
 
     model.load_state_dict(new_model_dict)
