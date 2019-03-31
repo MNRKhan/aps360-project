@@ -1,1 +1,1 @@
-{"name": "weights", "data_endpoint": null, "resource_id": null, "data_id": null, "family_id": "Cv9QTTehXdVA7gr2EkDJdT", "data_name": "yulmart/datasets/weights/1", "namespace": "yulmart", "tarball_path": null}
+{"family_id": "Cv9QTTehXdVA7gr2EkDJdT", "data_name": "yulmart/datasets/weights/3", "tarball_path": null, "namespace": "yulmart", "name": "weights", "data_endpoint": null, "data_id": null, "resource_id": null}

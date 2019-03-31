@@ -4,4 +4,4 @@ Assignment 1/search/__pycache__/
 *.pyc
 coco/
 data/
-./api_data/
+api_data/resnet
