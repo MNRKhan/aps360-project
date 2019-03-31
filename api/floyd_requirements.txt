@@ -4,3 +4,6 @@ torch
 torchvision
 matplotlib
 scipy
+opencv-python
+keras
+Pillow

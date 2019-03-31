@@ -2,6 +2,9 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import scipy.misc
+import cv2
+from keras.preprocessing import image
+from keras.preprocessing.image import array_to_img
 
 def save_img(out_path, img):
 
@@ -9,10 +12,18 @@ def save_img(out_path, img):
 
 def get_img(src):
 
-    img = plt.imread(src)
+    img = image.load_img(src)
+    img = image.img_to_array(img)
 
     height = img.shape[0]
     width = img.shape[1]
+
+    aspect_ratio = height / width
+
+    if width > 1000:
+
+        width = 1000
+        height = (int) (aspect_ratio * width)
 
     height = height - height % 32
     width = width - width % 32
@@ -49,3 +60,7 @@ def load_state_from_dc(model, dc_path):
     model.load_state_dict(new_model_dict)
 
     return model
+
+# Simple erosion-dilation denoiser
+def denoise(img, kernel_size=5):
+    return cv2.morphologyEx(img, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_RECT,(kernel_size,kernel_size)))

@@ -6,6 +6,9 @@ import torchvision.transforms as transforms
 import numpy as np
 from utils import *
 from model_blocks import *
+import cv2
+from keras.preprocessing.image import array_to_img
+from PIL import Image
 
 encode_out_r = []
 
@@ -99,40 +102,57 @@ class extractNet_resnet_prelu(nn.Module):
         return out
 
 
-def extract(in_path, out_path):
+def extract(in_path: str):
 
-    img = get_img(in_path)
+    with torch.no_grad():
 
-    path = "/floyd/input/weights/resnet"
+        img = get_img(in_path)
 
-    net = extractNet_resnet_prelu()
-    net = load_state_from_dc(net, path)
-    net = net.eval()
+        print("##############INNNNNN################################")
+        print(img.shape)
 
-    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        path = "/floyd/input/weights/resnet"
 
-    input = transform(img).unsqueeze(0)
+        net = extractNet_resnet_prelu()
+        net = load_state_from_dc(net, path)
+        net = net.eval()
 
-    out = net(input)
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    out = out.squeeze(0).squeeze(0).detach().numpy()
+        input = transform(img).unsqueeze(0)
 
-    get_masked(img, out, out_path)
+        out = net(input)
+
+        out = out.squeeze(0).squeeze(0).detach().numpy()
+
+        return get_masked(img, out)
 
 
 # Both are numpy arrays
 
-def get_masked(original, mask, out_path):
+def get_masked(original, mask, save=False):
 
     mask = torch.sigmoid(torch.Tensor(mask))
     mask = thresholdProbMask(mask.squeeze(0).squeeze(0).detach().numpy())
+
+    mask = cv2.blur(mask, (27, 27))
+    mask = thresholdProbMask(mask, threshold=0.5)
+
+    mask = np.array(mask, dtype=np.uint8)
+    mask = denoise(mask, kernel_size=39)
+
     mask = np.expand_dims(mask, axis=-1)
 
     final = mask * original
     final = np.dstack((final, 255*mask))
     final = final.astype(int)
 
-    save_img(out_path, final)
+    print("##############################################")
+    print(final.shape)
+
+    img = Image.fromarray(final.astype('uint8'))
+
+    return img
 
 
 def thresholdProbMask(prob_mask, threshold=0.5):
