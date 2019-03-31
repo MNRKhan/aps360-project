@@ -6,9 +6,9 @@ import numpy as np
 import time
 import torch
 
-from visualizer import plotPerformance
 from helper import getModelName
 from metrics import calculateTotalIoU, getLoss
+from visualizer import plotPerformance
 
 
 def trainModel(model, train_loader, valid_loader, batch_size=64, lr=0.001, num_epochs=30, out_suppress=False, checkpoint=True, save_model=True, device=None):
