@@ -1,3 +1,5 @@
+# <!-- Template from https://github.com/floydhub/colornet-template -->
+
 from flask import Flask, jsonify, request, send_file, make_response, render_template
 from inference import *
 import os
@@ -5,8 +7,12 @@ from werkzeug.exceptions import BadRequest
 from werkzeug.utils import secure_filename
 from io import BytesIO
 import base64
+import unicodedata
+from werkzeug.urls import url_quote
 
 app = Flask(__name__)
+
+# floyd run --data yulmart/datasets/weights/1:weights --mode serve
 
 @app.route('/', methods=['GET'])
 def index():
@@ -14,8 +20,6 @@ def index():
 
 @app.route('/image', methods=["POST"])
 def eval_image():
-
-    # Template from https://github.com/floydhub/colornet-template
 
     input_file = request.files.get('file')
     if not input_file:
@@ -34,8 +38,12 @@ def eval_image():
     img.save(output_buffer, format="PNG")
     img_str = base64.b64encode(output_buffer.getvalue())
 
+    content_disposition = "attachment; filename=output.png"
+
     response = make_response(img_str)
     response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Disposition', content_disposition)
+
     return response
 
     ##############

@@ -25,6 +25,7 @@
     text-align: right;
     cursor: pointer;
   }
+
 </style>
 
 <script type="text/javascript">
@@ -41,6 +42,7 @@
     }
 
     function sendFile() {
+      document.getElementById("outputContainer").style.backgroundImage = "None";
       var formData = new FormData();
       formData.append("file", $('#file')[0].files[0]);
 
@@ -70,9 +72,16 @@
 
     function showOutput(data) {
       $('#imgOutput').attr('src', 'data:image/png;base64,' + data);
+
+      // Checkerboard styling from: https://stackoverflow.com/questions/35361986/css-gradient-checkerboard-pattern
+
+      document.getElementById("outputContainer").style.backgroundImage = "linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%";
+      document.getElementById("outputContainer").style.backgroundSize = "20px 20px";
+      document.getElementById("outputContainer").style.backgroundPosition = "0 0, 0 10px, 10px -10px, -10px 0px";
     }
 
     $("#file").change(function() {
+      document.getElementById("outputContainer").style.backgroundImage = "None";
       showInput($("#file")[0]);
       sendFile();
     });
